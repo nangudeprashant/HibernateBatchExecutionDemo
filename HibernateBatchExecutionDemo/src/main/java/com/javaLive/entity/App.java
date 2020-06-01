@@ -23,10 +23,11 @@ public class App {
 			transaction = session.beginTransaction();
 			System.out.println("\n\n");
 			// save the student objects in bulk.......
-			for (int i = 101; i <= 300; i++) {
+			for (int i = 301; i <= 400; i++) {
 				Student student1 = new Student(i, ("Name" + i), "Address" + i);
 				session.save(student1);
-				if (i % 5 == 0) { // 50 is the batch_size
+				if (i % 50 == 0) { // 50 is the batch_size
+					System.out.println("================New batch of data insertion================");
 					session.flush();
 					session.clear();
 					session.getTransaction().commit();
@@ -34,7 +35,6 @@ public class App {
 				}
 			}
 			System.out.println("Displaying student list after inserting new entires");
-			logger.info("Displaying student list after inserting new entires");
 			new App().getStudentList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,10 +50,11 @@ public class App {
 			transaction = session.beginTransaction();
 			System.out.println("\n\n");
 			// delete the student objects
-			for (int i = 1; i <= 300; i++) {
+			for (int i = 301; i <= 400; i++) {
 				Student student1 = new Student(i, ("Name" + i), "Address" + i);
 				session.delete(student1);
 				if (i % 50 == 0) { // 50 is the batch_size
+					System.out.println("=======================New batch of data deletion==================");
 					session.flush();
 					session.clear();
 					session.getTransaction().commit();
@@ -62,7 +63,6 @@ public class App {
 			}
 			// commit transaction
 			transaction.commit();
-			logger.info("Displaying student list after deleting new entires");
 			System.out.println("Displaying student list after deleting the entires");
 			new App().getStudentList();
 		} catch (Exception e) {
@@ -74,18 +74,23 @@ public class App {
 	public static void main(String[] args) {
 		App obj=new App();
 		obj.batchInsert();
-		//obj.batchDelete();
+		obj.batchDelete();
 	}
 
 	public void getStudentList() {
+		List<Student> students;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			List<Student> students = session.createQuery("from Student", Student.class).list();
+			students = session.createQuery("from Student", Student.class).list();
 			for (Student s : students) {
 				System.out.println(s.toString());
 			}
 			;
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			students=null;
+			
 		}
 	}
 }
