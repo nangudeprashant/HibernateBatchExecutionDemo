@@ -1,4 +1,4 @@
-package com.javaLive.entity;
+package com.javaLive.main;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.javaLive.databaseUtil.*;
+import com.javaLive.entity.Student;
 
 public class App {
 	final Logger logger = LoggerFactory.getLogger(App.class);
